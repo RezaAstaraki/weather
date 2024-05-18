@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import waves from "../public/waves.svg";
+import Image from "next/image";
+import { dayOrNightTheme, isDayOrNight } from "./utils/convertors";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +18,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="fa">
+      <body
+      // className={inter.className}
+      >
+        <div
+          style={{
+            background: dayOrNightTheme(),
+          }}
+          className="text-white rlt"
+        >
+          {children}
+        </div>
+        <div className="bottom-0 hidden md:block fixed w-full">
+          <Image src={waves} alt="waves" className=" w-full" />
+        </div>
+      </body>
     </html>
   );
 }

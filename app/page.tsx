@@ -12,6 +12,7 @@ import {
   getCurrentDate,
   isDayOrNight,
 } from "./utils/convertors";
+import WeekDay from "./components/WeekDay";
 
 export default function Home() {
   const [data, setData] = useState<WeatherData[]>([]);
@@ -50,7 +51,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // console.log(data);
+    console.log(data);
     // console.log(isDayOrNight());
     // const dateFormat = new Intl.DateTimeFormat(Date.now(), options);
 
@@ -132,7 +133,7 @@ export default function Home() {
               </header>
 
               <div className="flex flex-col gap-3">
-                <div className="h-10 border-b flex flex-row justify-between border-b-white/10 items-center">
+                {/* <div className="h-10 border-b flex flex-row justify-between border-b-white/10 items-center">
                   <div className="text-sm md:text-base">
                     {data[1].dateTitle.split(" ")[0]}
                   </div>
@@ -150,15 +151,22 @@ export default function Home() {
                     <span>{enNumToFa(data[1].max)} حداكثر</span>
                     <span>{enNumToFa(data[1].min)} حداقل</span>
                   </div>
-                </div>
+                </div> */}
 
-                <div className="h-10 border-b border-b-white/10">ddd</div>
-                <div className="h-10 border-b border-b-white/10">ddd</div>
-                <div className="h-10 border-b border-b-white/10">ddd</div>
-                <div className="h-10 border-b border-b-white/10">ddd</div>
-                <div className="h-10 border-b border-b-white/10 border-hidden">
-                  ddd
-                </div>
+                {data.slice(1).map((day, index) => {
+                  if (index === 0) {
+                  }
+                  return (
+                    <WeekDay
+                      key={day.date}
+                      date={day.date}
+                      dateTitle={day.dateTitle}
+                      max={day.max}
+                      min={day.min}
+                      weather={day.weather}
+                    />
+                  );
+                })}
               </div>
             </div>
           }

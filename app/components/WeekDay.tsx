@@ -5,7 +5,9 @@ import { enNumToFa } from "../utils/convertors";
 
 const WeekDay: React.FC<WeatherData> = ({ ...data }: WeatherData) => {
   return (
-    <div className="h-10 border-b flex flex-row justify-between border-b-white/10 items-center">
+    <div
+      className={`h-10 border-b flex flex-row justify-between border-b-white/10 items-center ${data.className}`}
+    >
       <div className="text-sm md:text-base">{data.dateTitle.split(" ")[0]}</div>
       <div>
         <Image

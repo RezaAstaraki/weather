@@ -21,5 +21,6 @@ export interface Weather {
     backgroundColor?: string;
     textColor?: string;
     customDescription?: CustomDescription;
+    className?: string;
   }
   

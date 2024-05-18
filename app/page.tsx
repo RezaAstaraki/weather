@@ -154,7 +154,8 @@ export default function Home() {
                 </div> */}
 
                 {data.slice(1).map((day, index) => {
-                  if (index === 0) {
+                  if (index === data.length - 1) {
+                    console.log(index);
                   }
                   return (
                     <WeekDay
@@ -164,6 +165,7 @@ export default function Home() {
                       max={day.max}
                       min={day.min}
                       weather={day.weather}
+                      className={index == data.length - 2 ? "border-b-0" : ``}
                     />
                   );
                 })}

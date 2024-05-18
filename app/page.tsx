@@ -63,6 +63,9 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col  max-w-[1440px] px-4 py-8 md:px-14 md:py-16 md:gap-20 text-sm md:text-base">
       {error}
+
+      {/* {JSON.stringify(data)} */}
+
       <header className="">
         {
           <div className="w-full flex flex-row justify-between">
@@ -91,7 +94,7 @@ export default function Home() {
                 width={200}
                 height={200}
                 alt=""
-                src={"/icons/xxl-icons/Big rain drops-xxl.png"}
+                src={`/icons/xxl-icons/${data[0]?.weather.icon}.png`}
               />
 
               <div
@@ -130,20 +133,25 @@ export default function Home() {
 
               <div className="flex flex-col gap-3">
                 <div className="h-10 border-b flex flex-row justify-between border-b-white/10 items-center">
-                  <div className="text-sm md:text-base">چهارشنبه</div>
+                  <div className="text-sm md:text-base">
+                    {data[1].dateTitle.split(" ")[0]}
+                  </div>
                   <div>
                     <Image
                       width={40}
                       height={40}
                       alt=""
-                      src={"/icons/2x-weather-icons/Big rain drops-2x.png"}
+                      src={`/icons/xxl-icons/${data[4]?.weather.icon}.png`}
                     />
+
+                    {data[4]?.weather.icon}
                   </div>
                   <div className="flex flex-row gap-5 md:gap-10 text-xs md:text-sm">
-                    <span>18 حداكثر</span>
-                    <span>45 حداقل</span>
+                    <span>{enNumToFa(data[1].max)} حداكثر</span>
+                    <span>{enNumToFa(data[1].min)} حداقل</span>
                   </div>
                 </div>
+
                 <div className="h-10 border-b border-b-white/10">ddd</div>
                 <div className="h-10 border-b border-b-white/10">ddd</div>
                 <div className="h-10 border-b border-b-white/10">ddd</div>

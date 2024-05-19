@@ -91,7 +91,7 @@ export default function Home() {
           {
             <div className="relative flex flex-col items-center justify-center">
               <Image
-                className="w-[180px] h-[180px] md:h-[250px] md:w-[250px]"
+                className="w-[180px] h-[180px] md:h-[220px] md:w-[220px]"
                 width={200}
                 height={200}
                 alt=""
@@ -100,7 +100,7 @@ export default function Home() {
 
               <div
                 id="data"
-                className="flex flex-col items-center w-full gap-2 md:gap-3"
+                className="flex flex-col items-center w-full  gap-2 md:gap-3"
               >
                 <div className="text-3xl md:text-4xl font-bold">
                   {data[0]?.current}°
@@ -133,26 +133,6 @@ export default function Home() {
               </header>
 
               <div className="flex flex-col gap-3">
-                {/* <div className="h-10 border-b flex flex-row justify-between border-b-white/10 items-center">
-                  <div className="text-sm md:text-base">
-                    {data[1].dateTitle.split(" ")[0]}
-                  </div>
-                  <div>
-                    <Image
-                      width={40}
-                      height={40}
-                      alt=""
-                      src={`/icons/xxl-icons/${data[4]?.weather.icon}.png`}
-                    />
-
-                    {data[4]?.weather.icon}
-                  </div>
-                  <div className="flex flex-row gap-5 md:gap-10 text-xs md:text-sm">
-                    <span>{enNumToFa(data[1].max)} حداكثر</span>
-                    <span>{enNumToFa(data[1].min)} حداقل</span>
-                  </div>
-                </div> */}
-
                 {data.slice(1).map((day, index) => {
                   if (index === data.length - 1) {
                     console.log(index);

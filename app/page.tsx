@@ -1,5 +1,3 @@
-"use client";
-
 import { global } from "styled-jsx/css";
 import calender from "../public/icons/calender.svg";
 import type { WeatherData } from "./utils/types";
@@ -14,57 +12,46 @@ import {
 } from "./utils/convertors";
 import WeekDay from "./components/WeekDay";
 
-export default function Home() {
-  const [data, setData] = useState<WeatherData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const getData = async (): Promise<WeatherData[]> => {
-    try {
-      const response = await fetch(
-        "https://api.dastyar.io/express/weather?lat=35.67194277&lng=51.42434403"
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data: WeatherData[] = await response.json();
-      return data;
-    } catch (error: any) {
-      throw new Error(`Fetch error: ${error?.message}`);
+const getData = async (): Promise<WeatherData[]> => {
+  try {
+    const response = await fetch(
+      "https://api.dastyar.io/express/weather?lat=35.67194277&lng=51.42434403"
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  };
+    const data: WeatherData[] = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(`Fetch error: ${error?.message}`);
+  }
+};
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await getData();
-        setData(data);
-      } catch (error: any) {
-        setError(error?.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+export default async function Home() {
+  // const [data, setData] = useState<WeatherData[]>([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const data = await getData();
+  //       setData(data);
+  //     } catch (error: any) {
+  //       setError(error?.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-  useEffect(() => {
-    console.log(data);
-    // console.log(isDayOrNight());
-    // const dateFormat = new Intl.DateTimeFormat(Date.now(), options);
+  //   fetchData();
+  // }, []);
 
-    console.log(convertDateToPersian());
-
-    console.log(enNumToFa("5537.5654"));
-    console.log(enNumToFa(5537.35));
-  }, [loading]);
+  const data = await getData();
 
   return (
     <div className="min-h-screen flex flex-col  max-w-[1440px] px-4 py-8 md:px-14 md:py-16 md:gap-20 text-sm md:text-base">
-      {error}
-
       {/* {JSON.stringify(data)} */}
 
       <header className="">

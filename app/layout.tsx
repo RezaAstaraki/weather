@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import waves from "../public/waves.svg";
 import Image from "next/image";
-import { dayOrNightTheme, isDayOrNight } from "./utils/convertors";
+import ThemeProvider from "./utils/client side utils/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,17 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa">
-      <body
-      // className={inter.className}
-      >
-        <div
-          style={{
-            background: dayOrNightTheme(),
-          }}
-          className="text-white rlt"
-        >
-          {children}
-        </div>
+      <body className="text-white rlt">
+        <ThemeProvider>{children}</ThemeProvider>
         <div className="bottom-0 hidden md:block fixed w-full">
           <Image src={waves} alt="waves" className=" w-full" />
         </div>

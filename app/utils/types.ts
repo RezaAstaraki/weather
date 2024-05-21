@@ -12,8 +12,8 @@ export interface Weather {
   }
   
   export interface WeatherData {
-    date: string;
-    dateTitle: string;
+    date?: string;
+    dateTitle?: string;
     current?: number;
     min: number;
     max: number;

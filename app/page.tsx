@@ -1,126 +1,82 @@
 import { global } from "styled-jsx/css";
 import calender from "../public/icons/calender.svg";
 import type { WeatherData } from "./utils/types";
-import location from "../public/icons/map.svg";
+
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import {
-  convertDateToPersian,
-  enNumToFa,
-  getCurrentDate,
-  isDayOrNight,
-} from "./utils/convertors";
 import WeekDay from "./components/WeekDay";
+import Header from "./components/Header";
+import Today from "./components/Today";
+import next from "next";
+import type { NextServerOptions } from "next/dist/server/next";
+import { revalidateTag } from "next/cache";
 
 const getData = async (): Promise<WeatherData[]> => {
+  // const options: NextServerOptions = {
+  //   ne
+  // }
+
+  // next:{}
+
   try {
     const response = await fetch(
-      "https://api.dastyar.io/express/weather?lat=35.67194277&lng=51.42434403"
+      "https://api.dastyar.io/express/weather?lat=35.67194277&lng=51.42434403",
+      { next: { revalidate: 3 } }
     );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data: WeatherData[] = await response.json();
+    console.log(data);
     return data;
   } catch (error: any) {
     throw new Error(`Fetch error: ${error?.message}`);
   }
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
-  // const [data, setData] = useState<WeatherData[]>([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const data = await getData();
-  //       setData(data);
-  //     } catch (error: any) {
-  //       setError(error?.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
+  // try {
   const data = await getData();
+  // } catch (error) {
+  //   console.error(error);
+  // }
 
   return (
     <div className="min-h-screen flex flex-col  max-w-[1440px] px-4 py-8 md:px-14 md:py-16 md:gap-20 text-sm md:text-base">
       {/* {JSON.stringify(data)} */}
 
-      <header className="">
-        {
-          <div className="w-full flex flex-row justify-between">
-            <div>
+      <Header />
+      <main className="gap-2 flex flex-grow  flex-col mobile-design">
+        <div className="items-center justify-center mx-auto flex-grow-2  max-w-[400px] h-fit ">
+          {data && (
+            <Today
+              customDescription={data[0].customDescription}
+              current={data[0].current}
+              weather={data[0].weather}
+              max={data[0].max}
+              min={data[0].min}
+            />
+          )}
+        </div>
+        <div className="bg-bg-dark/30 h-fit flex-grow-3 rounded-2xl px-5 py-6 ">
+          <div className="relative flex flex-col gap-5">
+            <header className="flex flex-row gap-2">
               <span>
                 <Image
-                  width={28}
-                  height={28}
-                  alt="locationIcon"
-                  src={location}
+                  width={25}
+                  height={25}
+                  alt="calender icon"
+                  src={calender}
                   className="inline"
                 />
               </span>
-              تهران
-            </div>
-            <div>{getCurrentDate()}</div>
-          </div>
-        }
-      </header>
-      <main className="gap-2 flex flex-grow  flex-col mobile-design">
-        <div className="items-center justify-center mx-auto flex-grow-2  max-w-[400px] h-fit ">
-          {
-            <div className="relative flex flex-col items-center justify-center">
-              <Image
-                className="w-[180px] h-[180px] md:h-[220px] md:w-[220px]"
-                width={200}
-                height={200}
-                alt=""
-                src={`/icons/xxl-icons/${data[0]?.weather.icon}.png`}
-              />
+              <span>پیش‌بینی روزهای آینده</span>
+            </header>
 
-              <div
-                id="data"
-                className="flex flex-col items-center w-full  gap-2 md:gap-3"
-              >
-                <div className="text-3xl md:text-4xl font-bold">
-                  {data[0]?.current}°
-                </div>
-                <div className="font-bold">
-                  {data[0]?.customDescription?.text}
-                </div>
-                <div className="flex flex-row gap-10">
-                  <span className="">{data[0]?.max} حداكثر</span>
-                  <span className="">{data[0]?.min} حداقل</span>
-                </div>
-              </div>
-            </div>
-          }
-        </div>
-        <div className="bg-bg-dark/30 h-fit flex-grow-3 rounded-2xl px-5 py-6 ">
-          {
-            <div className="relative flex flex-col gap-5">
-              <header className="flex flex-row gap-2">
-                <span>
-                  <Image
-                    width={25}
-                    height={25}
-                    alt="calender icon"
-                    src={calender}
-                    className="inline"
-                  />
-                </span>
-                <span>پیش‌بینی روزهای آینده</span>
-              </header>
-
-              <div className="flex flex-col gap-3">
-                {data.slice(1).map((day, index) => {
+            <div className="flex flex-col gap-3">
+              {data ? (
+                data.slice(1).map((day, index) => {
                   if (index === data.length - 1) {
                     console.log(index);
                   }
@@ -135,10 +91,12 @@ export default async function Home() {
                       className={index == data.length - 2 ? "border-b-0" : ``}
                     />
                   );
-                })}
-              </div>
+                })
+              ) : (
+                <>no data</>
+              )}
             </div>
-          }
+          </div>
         </div>
       </main>
     </div>

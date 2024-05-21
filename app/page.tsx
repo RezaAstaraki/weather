@@ -6,21 +6,14 @@ import Image from "next/image";
 import WeekDay from "./components/WeekDay";
 import Header from "./components/Header";
 import Today from "./components/Today";
-import next from "next";
-import type { NextServerOptions } from "next/dist/server/next";
-import { revalidateTag } from "next/cache";
 
-const getData = async (): Promise<WeatherData[]> => {
-  // const options: NextServerOptions = {
-  //   ne
-  // }
+import { Suspense } from "react";
 
-  // next:{}
-
+const getData = async (): Promise<WeatherData[] | undefined> => {
   try {
     const response = await fetch(
       "https://api.dastyar.io/express/weather?lat=35.67194277&lng=51.42434403",
-      { next: { revalidate: 60 } }
+      { next: { revalidate: 1 } }
     );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -29,7 +22,7 @@ const getData = async (): Promise<WeatherData[]> => {
     console.log(data);
     return data;
   } catch (error: any) {
-    throw new Error(`Fetch error: ${error?.message}`);
+    // throw new Error(`Fetch error: ${error?.message}`);
   }
 };
 
@@ -49,15 +42,17 @@ export default async function Home() {
       <Header />
       <main className="gap-2 flex flex-grow  flex-col mobile-design">
         <div className="items-center justify-center mx-auto flex-grow-2  max-w-[400px] h-fit ">
-          {data && (
-            <Today
-              customDescription={data[0].customDescription}
-              current={data[0].current}
-              weather={data[0].weather}
-              max={data[0].max}
-              min={data[0].min}
-            />
-          )}
+          <Suspense fallback={<div>loading...</div>}>
+            {data && (
+              <Today
+                customDescription={data[0].customDescription}
+                current={data[0].current}
+                weather={data[0].weather}
+                max={data[0].max}
+                min={data[0].min}
+              />
+            )}
+          </Suspense>
         </div>
         <div className="bg-bg-dark/30 h-fit flex-grow-3 rounded-2xl px-5 py-6 ">
           <div className="relative flex flex-col gap-5">
@@ -84,7 +79,7 @@ export default async function Home() {
                     <WeekDay
                       key={day.date}
                       date={day.date}
-                      dateTitle={day.dateTitle}
+                      dateTitle={day?.dateTitle}
                       max={day.max}
                       min={day.min}
                       weather={day.weather}
@@ -93,7 +88,7 @@ export default async function Home() {
                   );
                 })
               ) : (
-                <>no data</>
+                <div>no data</div>
               )}
             </div>
           </div>

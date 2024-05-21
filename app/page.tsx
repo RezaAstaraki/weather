@@ -20,7 +20,7 @@ const getData = async (): Promise<WeatherData[]> => {
   try {
     const response = await fetch(
       "https://api.dastyar.io/express/weather?lat=35.67194277&lng=51.42434403",
-      { next: { revalidate: 3 } }
+      { next: { revalidate: 60 } }
     );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

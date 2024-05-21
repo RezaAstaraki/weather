@@ -9,7 +9,7 @@ const WeekDay: React.FC<WeatherData> = ({ ...data }: WeatherData) => {
       className={`h-10 border-b flex flex-row justify-between border-b-white/10 items-center ${data.className}`}
     >
       <div className="text-sm md:text-base min-w-[60px]">
-        {data.dateTitle.split(" ")[0]}
+        {data.dateTitle?.split(" ")[0]}
       </div>
       <div>
         <Image

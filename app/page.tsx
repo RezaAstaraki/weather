@@ -19,26 +19,19 @@ const getData = async (): Promise<WeatherData[] | undefined> => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data: WeatherData[] = await response.json();
-    console.log(data);
     return data;
   } catch (error: any) {
-    // throw new Error(`Fetch error: ${error?.message}`);
+    throw new Error(`Fetch error: ${error?.message}`);
   }
 };
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  // try {
   const data = await getData();
-  // } catch (error) {
-  //   console.error(error);
-  // }
 
   return (
     <div className="min-h-screen flex flex-col  max-w-[1440px] px-4 py-8 md:px-14 md:py-16 md:gap-20 text-sm md:text-base">
-      {/* {JSON.stringify(data)} */}
-
       <Header />
       <main className="gap-2 flex flex-grow  flex-col mobile-design">
         <div className="items-center justify-center mx-auto flex-grow-2  max-w-[400px] h-fit ">

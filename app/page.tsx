@@ -48,7 +48,7 @@ export default async function Home() {
           </Suspense>
         </div>
         <div className="bg-bg-dark/30 h-fit flex-grow-3 rounded-2xl px-5 py-6 ">
-          <div className="relative flex flex-col gap-5">
+          <div className="relative h-fit flex flex-col gap-5">
             <header className="flex flex-row gap-2">
               <span>
                 <Image
@@ -62,7 +62,7 @@ export default async function Home() {
               <span>پیش‌بینی روزهای آینده</span>
             </header>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col h-fit gap-3">
               {data ? (
                 data.slice(1).map((day, index) => {
                   if (index === data.length - 1) {
